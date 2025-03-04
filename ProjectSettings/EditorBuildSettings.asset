@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 0
+    path: Assets/@MyAssets/Scenes/inicio.unity
+    guid: 06b2c0c81f741804395e317a9b0f1d01
+  - enabled: 1
+    path: Assets/@MyAssets/Scenes/inicio1.unity
+    guid: 4ef134cbb1ee92141a972f06929f9ff7
+  - enabled: 1
+    path: Assets/@MyAssets/Scenes/SampleScene.unity
+    guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 1
+    path: Assets/@MyAssets/Scenes/YouWin.unity
+    guid: 18e6f48bc9ed8b84492749dd8d12f989
+  - enabled: 1
+    path: Assets/@MyAssets/Scenes/Game Over.unity
+    guid: 31f29f8f25d2754489e8a8592d401a6f
+  m_configObjects:
+    UnityEditor.XR.ARCore.ARCoreSettings: {fileID: 11400000, guid: abdca7ae23f257b4e96ad80f7edd953e,
+      type: 2}
+    com.unity.xr.arfoundation.simulation_settings: {fileID: 11400000, guid: e668e4afde516c74aa9d4f576c9c5d48,
+      type: 2}
+    com.unity.xr.management.loader_settings: {fileID: 11400000, guid: eaa6e35215cfad54f9e0cafdd26504ea,
+      type: 2}
+    com.unity.xr.openxr.settings4: {fileID: 11400000, guid: 15df1c5180cc900448a734528e934a64,
+      type: 2}
