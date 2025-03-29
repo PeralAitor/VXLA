@@ -7,16 +7,16 @@ using UnityEngine.XR.Interaction.Toolkit;
 [RequireComponent(typeof(NetworkObject), typeof(XRGrabInteractable))]
 public class NetworkedGrab : NetworkBehaviour
 {
-    private NetworkObject m_NetworkObject;
-    private XRGrabInteractable m_Interactable;
+    private NetworkObject networkObject;
+    private XRGrabInteractable interactable;
 
     void Awake()
     {
-        m_NetworkObject = GetComponent<NetworkObject>();
-        m_Interactable = GetComponent<XRGrabInteractable>();
+        networkObject = GetComponent<NetworkObject>();
+        interactable = GetComponent<XRGrabInteractable>();
 
-        m_Interactable.selectEntered.AddListener((args) => RequestOwnership());
-        m_Interactable.selectExited.AddListener((args) => ReleaseOwnership());
+        interactable.selectEntered.AddListener((args) => RequestOwnership());
+        interactable.selectExited.AddListener((args) => ReleaseOwnership());
     }
 
     private void RequestOwnership()
@@ -33,12 +33,12 @@ public class NetworkedGrab : NetworkBehaviour
     [Rpc(SendTo.Server)]
     private void RequestOwnershipRpc(ulong clientId)
     {
-        m_NetworkObject.ChangeOwnership(clientId);
+        networkObject.ChangeOwnership(clientId);
     }
 
     [Rpc(SendTo.Server)]
     private void ReleaseOwnershipRpc()
     {
-        m_NetworkObject.RemoveOwnership();
+        networkObject.RemoveOwnership();
     }
 }
