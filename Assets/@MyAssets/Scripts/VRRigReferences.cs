@@ -11,6 +11,7 @@ public class VRRigReferences : MonoBehaviour
     public Transform leftHand;
     public Transform rightHand;
     public Transform body;
+    public Transform health;
 
 
 

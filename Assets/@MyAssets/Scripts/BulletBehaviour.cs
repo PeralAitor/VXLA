@@ -1,31 +1,23 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Netcode;
 using UnityEngine;
 
-public class BulletBehaviour : MonoBehaviour
+public class BulletBehaviour : NetworkBehaviour
 {
-    
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    public int damage = 20;
+
     private void OnTriggerEnter(Collider other)
     {
-        if(other.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+        if (!IsServer) return;
+
+        PlayerHealth player = other.GetComponent<PlayerHealth>();
+        if (player != null)
         {
-            other.transform.gameObject.GetComponent<ZombieBehaviour>().hit(); 
-            Destroy(this.gameObject);
-        }else if (other.gameObject.layer == LayerMask.NameToLayer("Boss"))
-        {
-            other.transform.gameObject.GetComponent<BossBehaviour>().hit();
-            Destroy(this.gameObject);
+            player.TakeDamage(damage);
+            Destroy(gameObject); // O Despawn si usas NetworkObject
         }
     }
 }
