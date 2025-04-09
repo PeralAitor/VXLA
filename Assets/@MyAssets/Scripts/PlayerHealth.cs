@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using Unity.Netcode;
 using UnityEngine;
 using TMPro;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealth : NetworkBehaviour
 {
@@ -17,7 +19,7 @@ public class PlayerHealth : NetworkBehaviour
 
         UpdateHealthUI(health.Value);
 
-        // Se actualiza en todos los clientes cuando cambia la salud
+        // Actualizar la UI en todos los clientes cuando la salud cambie.
         health.OnValueChanged += (oldVal, newVal) => UpdateHealthUI(newVal);
     }
 
@@ -40,6 +42,35 @@ public class PlayerHealth : NetworkBehaviour
     private void Die()
     {
         Debug.Log($"Jugador {OwnerClientId} ha muerto.");
-        // Aquí puedes añadir lógica de muerte o respawn
+
+        // Enviar a la escena "YouLose" al jugador que murió:
+        LoadSceneClientRpc("YouLose", new ClientRpcParams
+        {
+            Send = new ClientRpcSendParams
+            {
+                TargetClientIds = new List<ulong> { OwnerClientId }
+            }
+        });
+
+        // Enviar a la escena "YouWin" a los demás jugadores (incluido el host si no es el que murió):
+        foreach (var client in NetworkManager.Singleton.ConnectedClientsList)
+        {
+            if (client.ClientId != OwnerClientId)
+            {
+                LoadSceneClientRpc("YouWin", new ClientRpcParams
+                {
+                    Send = new ClientRpcSendParams
+                    {
+                        TargetClientIds = new List<ulong> { client.ClientId }
+                    }
+                });
+            }
+        }
+    }
+
+    [ClientRpc]
+    private void LoadSceneClientRpc(string sceneName, ClientRpcParams clientRpcParams = default)
+    {
+        SceneManager.LoadScene(sceneName);
     }
 }
